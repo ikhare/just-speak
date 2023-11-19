@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "scheme": "voice-blog",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -14,6 +15,10 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "experiments": {
+      "tsconfigPaths": true,
+      "typedRoutes": true
+    },
     "ios": {
       "supportsTablet": true
     },
@@ -24,7 +29,11 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
