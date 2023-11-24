@@ -1,9 +1,14 @@
 import { Link, Stack, useNavigation, useRouter } from "expo-router";
 import React from "react";
 import { Image, Text, View } from "react-native";
-import { Button } from "react-native-paper";
+import { Appbar, Button, Divider, Menu } from "react-native-paper";
 import { Audio } from "expo-av";
 import { RecordingStatus } from "expo-av/build/Audio";
+import { SignedIn, SignedOut, useAuth, useUser } from "@clerk/clerk-expo";
+import { api } from "../convex/_generated/api";
+import SignUpScreen from "components/SignUpScreen";
+import SignInScreen from "components/SignInScreen";
+import UploadFile from "components/UploadFile";
 
 // function LogoTitle() {
 //   return (
@@ -15,6 +20,92 @@ import { RecordingStatus } from "expo-av/build/Audio";
 // }
 
 export default function Home() {
+  return (
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 10,
+      }}
+    >
+      {/* {user !== undefined ? (
+        <>Loading....</>
+      ) : user === null ? (
+        <SignUpSignIn signIn={signIn} signUp={signUp} />
+      ) : (
+        <>
+          <>Signed in with email: {user.email}</>
+          <SignOutButton />
+          <RecordingScreen />
+        </>
+      )} */}
+      <SignedIn>
+        <MainScreenWrapper>
+          <RecordingScreen />
+        </MainScreenWrapper>
+      </SignedIn>
+      <SignedOut>
+        <SignInScreen />
+        <Text>or</Text>
+        <SignUpScreen />
+      </SignedOut>
+    </View>
+  );
+}
+
+function MainScreenWrapper({ children }) {
+  const [visible, setVisible] = React.useState(false);
+
+  const openMenu = () => setVisible(true);
+
+  const closeMenu = () => setVisible(false);
+
+  const { isLoaded, signOut } = useAuth();
+  const { user } = useUser();
+
+  return (
+    <>
+      <Stack.Screen
+        options={{
+          // https://reactnavigation.org/docs/headers#setting-the-header-title
+          title: "Record it!",
+          // https://reactnavigation.org/docs/headers#adjusting-header-styles
+          // headerStyle: { backgroundColor: "#f4511e" },
+          // headerTintColor: "#fff",
+          // headerTitleStyle: {
+          //   fontWeight: "bold",
+          // },
+          // https://reactnavigation.org/docs/headers#replacing-the-title-with-a-custom-component
+          // headerTitle: (props) => <LogoTitle />, // {...props}
+          headerRight: () => (
+            <Menu
+              visible={visible}
+              onDismiss={closeMenu}
+              anchor={<Appbar.Action icon="dots-vertical" onPress={openMenu} />}
+            >
+              <Menu.Item
+                onPress={() => {
+                  signOut();
+                  closeMenu();
+                }}
+                title={
+                  <Text>Sign Out {user.emailAddresses[0].toString()}</Text>
+                }
+              />
+              <Menu.Item onPress={() => {}} title="Item 2" />
+              <Divider />
+              <Menu.Item onPress={() => {}} title="Item 3" />
+            </Menu>
+          ),
+        }}
+      />
+      {children}
+    </>
+  );
+}
+
+function RecordingScreen() {
   const router = useRouter();
 
   const [recording, setRecording] = React.useState<Audio.Recording>();
@@ -85,28 +176,7 @@ export default function Home() {
   }, [sound]);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 10,
-      }}
-    >
-      <Stack.Screen
-        options={{
-          // https://reactnavigation.org/docs/headers#setting-the-header-title
-          title: "Record it!",
-          // https://reactnavigation.org/docs/headers#adjusting-header-styles
-          // headerStyle: { backgroundColor: "#f4511e" },
-          // headerTintColor: "#fff",
-          // headerTitleStyle: {
-          //   fontWeight: "bold",
-          // },
-          // https://reactnavigation.org/docs/headers#replacing-the-title-with-a-custom-component
-          // headerTitle: (props) => <LogoTitle />, // {...props}
-        }}
-      />
+    <>
       <Text>Home Screen</Text>
       <Button
         mode="contained"
@@ -117,16 +187,28 @@ export default function Home() {
 
       <View
         style={{
-          width: 200 * Math.max(metering, 0.3),
-          height: 200 * Math.max(metering, 0.3),
-          backgroundColor: "red",
-          borderRadius: 100,
+          width: 200,
+          height: 200,
+          flexDirection: "column",
+          justifyContent: "center",
         }}
-      />
+      >
+        <View
+          style={{
+            width: 200 * Math.max(metering, 0.3),
+            height: 200 * Math.max(metering, 0.3),
+            backgroundColor: "red",
+            borderRadius: 100,
+          }}
+        />
+      </View>
 
       <Button mode="contained" onPress={playSound}>
         Play Sound
       </Button>
+
+      {soundUri !== undefined && <UploadFile uri={soundUri} />}
+
       <Button
         mode="contained-tonal"
         onPress={() =>
@@ -135,6 +217,6 @@ export default function Home() {
       >
         Go to Details
       </Button>
-    </View>
+    </>
   );
 }
