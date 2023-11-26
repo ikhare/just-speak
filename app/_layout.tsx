@@ -10,6 +10,25 @@ import {
   PaperProvider,
 } from "react-native-paper";
 import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
+import * as SecureStore from "expo-secure-store";
+
+// For Clerk auth caching
+const tokenCache = {
+  async getToken(key: string) {
+    try {
+      return SecureStore.getItemAsync(key);
+    } catch (err) {
+      return null;
+    }
+  },
+  async saveToken(key: string, value: string) {
+    try {
+      return SecureStore.setItemAsync(key, value);
+    } catch (err) {
+      return;
+    }
+  },
+};
 
 const theme = {
   ...DefaultTheme,
@@ -26,7 +45,10 @@ const convex = new ConvexReactClient(CONVEX_URL, {
 
 export default function Layout() {
   return (
-    <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY}>
+    <ClerkProvider
+      tokenCache={tokenCache}
+      publishableKey={CLERK_PUBLISHABLE_KEY}
+    >
       <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
         <PaperProvider theme={theme}>
           <Stack
