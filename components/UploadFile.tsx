@@ -9,9 +9,10 @@ export default function UploadFile({ uri }: { uri: string }) {
   const generateUploadUrl = useMutation(api.fileUpload.generateUploadUrl);
   const sendFile = useMutation(api.fileUpload.sendFile);
   const { user } = useUser();
-  // const [progress, setProgress] = React.useState(0);
+  const [progress, setProgress] = React.useState("Not started");
 
   async function sendFileToServer() {
+    setProgress("Fetching audio");
     const postUrl = await generateUploadUrl();
     const fileData = await fetch(uri);
     if (!fileData.ok) {
@@ -19,6 +20,7 @@ export default function UploadFile({ uri }: { uri: string }) {
     }
     const blob = await fileData.blob();
 
+    setProgress("Sending file...");
     console.log("Form Data created");
     try {
       // https://stackoverflow.com/questions/35711724/upload-progress-indicators-for-fetch
@@ -47,10 +49,13 @@ export default function UploadFile({ uri }: { uri: string }) {
       if (!result.ok) {
         console.log("Failed to upload...");
         console.log("Failed Upload Result:", JSON.stringify(result));
+        setProgress("Failed to upload");
         return;
       }
+      setProgress("Setting file metadata");
       const { storageId } = await result.json();
       const uploadResult = await sendFile({ storageId, author: user.id });
+      setProgress("Upload complete");
       // TODO: do something to the UI to show that the upload is complete
       // console.log(uploadResult);
     } catch (err) {
@@ -75,7 +80,7 @@ export default function UploadFile({ uri }: { uri: string }) {
       >
         UploadFile
       </Button>
-      {/* <Text>Progress: {progress * 100}%</Text> */}
+      <Text>Progress: {progress}</Text>
     </View>
   );
 }
