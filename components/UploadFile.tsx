@@ -75,7 +75,7 @@ export default function UploadFile({ uri }: { uri: string }) {
       >
         UploadFile
       </Button>
-      <Text>Progress: {progress * 100}%</Text>
+      {/* <Text>Progress: {progress * 100}%</Text> */}
     </View>
   );
 }
