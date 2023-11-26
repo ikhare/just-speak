@@ -9,27 +9,15 @@ export default function UploadFile({ uri }: { uri: string }) {
   const generateUploadUrl = useMutation(api.fileUpload.generateUploadUrl);
   const sendFile = useMutation(api.fileUpload.sendFile);
   const { user } = useUser();
-  const [progress, setProgress] = React.useState(0);
+  // const [progress, setProgress] = React.useState(0);
 
   async function sendFileToServer() {
     const postUrl = await generateUploadUrl();
-    console.log("PostUrl:", postUrl);
-
-    const filename = uri.split("/").pop();
-    const match = /\.(\w+)$/.exec(filename);
-    const type = match ? `audio/${match[1]}` : `audio`;
-
-    console.log("Uri:", uri);
     const fileData = await fetch(uri);
-    // console.log("FileData:", fileData);
     if (!fileData.ok) {
-      console.log("error loading file", fileData);
+      console.error("Error loading file", fileData);
     }
     const blob = await fileData.blob();
-    // console.log("Blob:", blob);
-
-    // let formData = new FormData();
-    // formData.append("file", blob);
 
     console.log("Form Data created");
     try {
@@ -52,24 +40,22 @@ export default function UploadFile({ uri }: { uri: string }) {
       // });
       const result = await fetch(postUrl, {
         method: "POST",
+        // TODO: use the right mime type generally
         headers: { "Content-Type": "audio/mp4" },
         body: blob,
       });
-      // console.log("Tried to upload...");
       if (!result.ok) {
         console.log("Failed to upload...");
         console.log("Failed Upload Result:", JSON.stringify(result));
         return;
       }
-      // console.log("Uploaded...");
-      // console.log("Upload Result:", JSON.stringify(result));
       const { storageId } = await result.json();
-      console.log("Storage Id:", storageId.toString());
       const uploadResult = await sendFile({ storageId, author: user.id });
-      console.log(uploadResult);
+      // TODO: do something to the UI to show that the upload is complete
+      // console.log(uploadResult);
     } catch (err) {
       console.error("Fetch error", err);
-      // throw err;
+      throw err;
     }
   }
 
