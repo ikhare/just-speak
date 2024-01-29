@@ -5,4 +5,9 @@ export async function checkAuth(ctx: QueryCtx) {
   if (identity === null) {
     throw new Error("Unauthenticated call to mutation");
   }
+  return identity;
+}
+
+export function idFromTokenIdentifier(tokenIdentifier: string) {
+  return tokenIdentifier.split("|")[1];
 }

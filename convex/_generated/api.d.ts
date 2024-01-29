@@ -15,6 +15,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as fileUpload from "../fileUpload";
+import type * as helpers from "../helpers";
 import type * as notes from "../notes";
 import type * as transcript from "../transcript";
 
@@ -28,6 +29,7 @@ import type * as transcript from "../transcript";
  */
 declare const fullApi: ApiFromModules<{
   fileUpload: typeof fileUpload;
+  helpers: typeof helpers;
   notes: typeof notes;
   transcript: typeof transcript;
 }>;

@@ -209,14 +209,9 @@ function RecordingScreen() {
 
       {soundUri !== undefined && <UploadFile uri={soundUri} />}
 
-      <Button
-        mode="contained-tonal"
-        onPress={() =>
-          router.push({ pathname: "/details", params: { name: "Bacon" } })
-        }
-      >
-        Go to Details
-      </Button>
+      <Link href="/notes/">
+        <Button mode="contained-tonal">Go to Details</Button>
+      </Link>
     </>
   );
 }
