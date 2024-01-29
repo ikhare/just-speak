@@ -23,7 +23,7 @@ export const getNotes = query({
           .query("transcriptions")
           .filter((q) => q.eq(q.field("fileId"), file._id))
           .first();
-        console.log("transcription", transcription);
+        // console.log("transcription", transcription);
         const label = transcription?.text
           ? transcription.text.substring(0, 40).concat("...")
           : `Note created on ${new Date(file._creationTime).toLocaleString()}`;
