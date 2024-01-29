@@ -6,9 +6,9 @@ import { Audio } from "expo-av";
 import { RecordingStatus } from "expo-av/build/Audio";
 import { SignedIn, SignedOut, useAuth, useUser } from "@clerk/clerk-expo";
 import { api } from "../convex/_generated/api";
-import SignUpScreen from "components/SignUpScreen";
-import SignInScreen from "components/SignInScreen";
-import UploadFile from "components/UploadFile";
+import SignUpScreen from "../components/SignUpScreen";
+import SignInScreen from "../components/SignInScreen";
+import UploadFile from "../components/UploadFile";
 
 // function LogoTitle() {
 //   return (

@@ -1,7 +1,7 @@
 import { Button } from "react-native-paper";
 import { useUser } from "@clerk/clerk-expo";
 import { useMutation } from "convex/react";
-import { api } from "convex/_generated/api";
+import { api } from "../convex/_generated/api";
 import React from "react";
 import { View, Text } from "react-native";
 
