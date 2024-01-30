@@ -6,7 +6,7 @@ import { List } from "react-native-paper";
 
 export default function NotesList() {
   const notes = useQuery(api.notes.getNotes);
-  console.log("notes: ", notes);
+
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Stack.Screen
