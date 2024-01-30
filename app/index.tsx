@@ -1,23 +1,13 @@
-import { Link, Stack, useNavigation, useRouter } from "expo-router";
+import { Link, Stack, useRouter } from "expo-router";
 import React from "react";
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { Appbar, Button, Divider, Menu } from "react-native-paper";
 import { Audio } from "expo-av";
 import { RecordingStatus } from "expo-av/build/Audio";
 import { SignedIn, SignedOut, useAuth, useUser } from "@clerk/clerk-expo";
-import { api } from "../convex/_generated/api";
 import SignUpScreen from "../components/SignUpScreen";
 import SignInScreen from "../components/SignInScreen";
 import UploadFile from "../components/UploadFile";
-
-// function LogoTitle() {
-//   return (
-//     <Image
-//       style={{ width: 50, height: 50 }}
-//       source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
-//     />
-//   );
-// }
 
 export default function Home() {
   return (
@@ -29,17 +19,6 @@ export default function Home() {
         gap: 10,
       }}
     >
-      {/* {user !== undefined ? (
-        <>Loading....</>
-      ) : user === null ? (
-        <SignUpSignIn signIn={signIn} signUp={signUp} />
-      ) : (
-        <>
-          <>Signed in with email: {user.email}</>
-          <SignOutButton />
-          <RecordingScreen />
-        </>
-      )} */}
       <SignedIn>
         <MainScreenWrapper>
           <RecordingScreen />
@@ -54,6 +33,7 @@ export default function Home() {
   );
 }
 
+// Setup menus and chrome for main logged in screen
 function MainScreenWrapper({ children }) {
   const [visible, setVisible] = React.useState(false);
 
@@ -68,16 +48,7 @@ function MainScreenWrapper({ children }) {
     <>
       <Stack.Screen
         options={{
-          // https://reactnavigation.org/docs/headers#setting-the-header-title
           title: "Record it!",
-          // https://reactnavigation.org/docs/headers#adjusting-header-styles
-          // headerStyle: { backgroundColor: "#f4511e" },
-          // headerTintColor: "#fff",
-          // headerTitleStyle: {
-          //   fontWeight: "bold",
-          // },
-          // https://reactnavigation.org/docs/headers#replacing-the-title-with-a-custom-component
-          // headerTitle: (props) => <LogoTitle />, // {...props}
           headerRight: () => (
             <Menu
               visible={visible}
@@ -105,9 +76,8 @@ function MainScreenWrapper({ children }) {
   );
 }
 
+// Main screen for the app
 function RecordingScreen() {
-  const router = useRouter();
-
   const [recording, setRecording] = React.useState<Audio.Recording>();
   const [soundUri, setSoundUri] = React.useState<string>();
   const [metering, setMetering] = React.useState<number>(0.5);
@@ -189,8 +159,9 @@ function RecordingScreen() {
         style={{
           width: 200,
           height: 200,
-          flexDirection: "column",
+          flexDirection: "row",
           justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <View
@@ -210,7 +181,7 @@ function RecordingScreen() {
       {soundUri !== undefined && <UploadFile uri={soundUri} />}
 
       <Link href="/notes/">
-        <Button mode="contained-tonal">Go to Details</Button>
+        <Button mode="contained-tonal">See all notes</Button>
       </Link>
     </>
   );
