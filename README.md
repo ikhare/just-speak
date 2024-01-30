@@ -20,9 +20,9 @@ Cool things include:
 
 ## Todos
 
-- [ ] List of voice notes
-  - [ ] Show list with basic info
+- [x] List of voice notes
+  - [x] Show list with basic info
   - [ ] If summary is available then show
-  - [ ] Detail page?
+  - [x] Detail page
 - [ ] Chain the upload and then transcription stuff
 - [ ] Generalize chain into a workflow library
