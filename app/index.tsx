@@ -7,7 +7,7 @@ import { RecordingStatus } from "expo-av/build/Audio";
 import { SignedIn, SignedOut, useAuth, useUser } from "@clerk/clerk-expo";
 import SignUpScreen from "../components/SignUpScreen";
 import SignInScreen from "../components/SignInScreen";
-import UploadFile from "../components/UploadFile";
+import UploadRecording from "../components/UploadFile";
 
 export default function Home() {
   return (
@@ -178,7 +178,7 @@ function RecordingScreen() {
         Play Sound
       </Button>
 
-      {soundUri !== undefined && <UploadFile uri={soundUri} />}
+      {soundUri !== undefined && <UploadRecording uri={soundUri} />}
 
       <Link href="/notes/">
         <Button mode="contained-tonal">See all notes</Button>

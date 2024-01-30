@@ -14,9 +14,9 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
-import type * as fileUpload from "../fileUpload";
 import type * as helpers from "../helpers";
 import type * as notes from "../notes";
+import type * as recordings from "../recordings";
 import type * as transcript from "../transcript";
 
 /**
@@ -28,9 +28,9 @@ import type * as transcript from "../transcript";
  * ```
  */
 declare const fullApi: ApiFromModules<{
-  fileUpload: typeof fileUpload;
   helpers: typeof helpers;
   notes: typeof notes;
+  recordings: typeof recordings;
   transcript: typeof transcript;
 }>;
 export declare const api: FilterApi<

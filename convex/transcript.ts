@@ -11,27 +11,27 @@ import { Id } from "./_generated/dataModel";
 
 export const transcribe = internalAction({
   args: {
-    fileId: v.id("files"),
+    recId: v.id("recordings"),
   },
   handler: async (ctx, args) => {
-    const file = await ctx.runQuery(internal.transcript.getFile, {
-      fileId: args.fileId,
-    });
+    const recording = (await ctx.runQuery(internal.transcript.getRecording, {
+      recId: args.recId,
+    }))!; // TODO: handle null
 
     let blob: Blob;
     try {
-      const maybeBlob = await ctx.storage.get(file.storageId);
+      const maybeBlob = await ctx.storage.get(recording.storageId);
       if (maybeBlob !== null) {
         blob = maybeBlob;
       } else {
-        throw new ConvexError("File not found");
+        throw new ConvexError("Recording not found");
       }
     } catch (e) {
-      throw new ConvexError("File not found");
+      throw new ConvexError("Recording not found");
     }
 
     const blobAsFile = new File([blob], "file.m4a", {
-      lastModified: file._creationTime,
+      lastModified: recording._creationTime,
     });
 
     const openAI = new OpenAI();
@@ -42,29 +42,29 @@ export const transcribe = internalAction({
 
     await ctx.runMutation(internal.transcript.storeTranscript, {
       transcription: transcription.text,
-      fileId: args.fileId,
+      recId: args.recId,
     });
   },
 });
 
-function dbGetFile(db: DatabaseReader, fileId: Id<"files">) {
-  return db.get(fileId);
+function dbGetRecording(db: DatabaseReader, recId: Id<"recordings">) {
+  return db.get(recId);
 }
 
-export const getFile = internalQuery({
+export const getRecording = internalQuery({
   args: {
-    fileId: v.id("files"),
+    recId: v.id("recordings"),
   },
   handler: async (ctx, args) => {
-    return await dbGetFile(ctx.db, args.fileId);
+    return await dbGetRecording(ctx.db, args.recId);
   },
 });
 
 export const storeTranscript = internalMutation({
-  args: { transcription: v.string(), fileId: v.id("files") },
+  args: { transcription: v.string(), recId: v.id("recordings") },
   handler: async (ctx, args) => {
     return ctx.db.insert("transcriptions", {
-      fileId: args.fileId,
+      recordingId: args.recId,
       text: args.transcription,
     });
   },

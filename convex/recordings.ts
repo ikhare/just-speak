@@ -8,16 +8,16 @@ export const generateUploadUrl = mutation(async (ctx) => {
   return await ctx.storage.generateUploadUrl();
 });
 
-export const sendFile = mutation({
+export const saveRecording = mutation({
   args: { storageId: v.id("_storage"), author: v.string() },
   handler: async (ctx, args) => {
     await checkAuth(ctx);
-    const fileId = await ctx.db.insert("files", {
+    const recId = await ctx.db.insert("recordings", {
       storageId: args.storageId,
       author: args.author,
       format: "audio",
     });
-    ctx.scheduler.runAfter(0, internal.transcript.transcribe, { fileId });
-    return fileId;
+    ctx.scheduler.runAfter(0, internal.transcript.transcribe, { recId });
+    return recId;
   },
 });

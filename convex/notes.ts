@@ -10,27 +10,27 @@ export const getNotes = query({
     const userId = idFromTokenIdentifier(identity.tokenIdentifier);
     // console.log("userId", userId);
 
-    // get all files
-    const files = await ctx.db
-      .query("files")
+    // get all recordings
+    const recordings = await ctx.db
+      .query("recordings")
       .filter((q) => q.eq(q.field("author"), userId))
       .order("desc")
       .collect();
 
     // get all transcripts and create a new return value
     return Promise.all(
-      files.map(async (file) => {
+      recordings.map(async (recording) => {
         const transcription = await ctx.db
           .query("transcriptions")
-          .filter((q) => q.eq(q.field("fileId"), file._id))
+          .filter((q) => q.eq(q.field("recordingId"), recording._id))
           .first();
         // console.log("transcription", transcription);
         const label = transcription?.text
           ? transcription.text.substring(0, 40).concat("...")
           : null;
         return {
-          creationTime: file._creationTime,
-          fileId: file._id,
+          creationTime: recording._creationTime,
+          recId: recording._id,
           label: label,
         };
       })
@@ -39,21 +39,21 @@ export const getNotes = query({
 });
 
 export const getNote = query({
-  args: { fileId: v.id("files") },
+  args: { recId: v.id("recordings") },
   handler: async (ctx, args) => {
     // get user
     await checkAuth(ctx);
-    // get file
-    const file = await ctx.db.get(args.fileId);
+    // get recording
+    const recording = (await ctx.db.get(args.recId))!; // TODO: handle null
     // get transcript
     const transcription = await ctx.db
       .query("transcriptions")
-      .filter((q) => q.eq(q.field("fileId"), file._id))
+      .filter((q) => q.eq(q.field("recordingId"), recording._id))
       .first();
     // console.log("transcription", transcription);
     return {
-      fileId: file._id,
-      creationTime: file._creationTime,
+      recId: recording._id,
+      creationTime: recording._creationTime,
       text: transcription?.text || "",
     };
   },

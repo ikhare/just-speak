@@ -7,8 +7,8 @@ import { Id } from "../../convex/_generated/dataModel";
 
 export default function SingleNote() {
   const { id } = useLocalSearchParams();
-  const fileId = id as Id<"files">;
-  const note = useQuery(api.notes.getNote, id !== null ? { fileId } : "skip");
+  const recId = id as Id<"recordings">;
+  const note = useQuery(api.notes.getNote, { recId });
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

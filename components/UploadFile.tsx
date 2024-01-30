@@ -5,13 +5,13 @@ import { api } from "../convex/_generated/api";
 import React from "react";
 import { View, Text } from "react-native";
 
-export default function UploadFile({ uri }: { uri: string }) {
-  const generateUploadUrl = useMutation(api.fileUpload.generateUploadUrl);
-  const sendFile = useMutation(api.fileUpload.sendFile);
+export default function UploadRecording({ uri }: { uri: string }) {
+  const generateUploadUrl = useMutation(api.recordings.generateUploadUrl);
+  const saveRecording = useMutation(api.recordings.saveRecording);
   const { user } = useUser();
   const [progress, setProgress] = React.useState("Not started");
 
-  async function sendFileToServer() {
+  async function uploadAndSaveRecording() {
     setProgress("Fetching audio");
     const postUrl = await generateUploadUrl();
     const fileData = await fetch(uri);
@@ -54,7 +54,7 @@ export default function UploadFile({ uri }: { uri: string }) {
       }
       setProgress("Setting file metadata");
       const { storageId } = await result.json();
-      const uploadResult = await sendFile({ storageId, author: user.id });
+      const uploadResult = await saveRecording({ storageId, author: user.id });
       setProgress("Upload complete");
       // TODO: do something to the UI to show that the upload is complete
       // console.log(uploadResult);
@@ -75,7 +75,7 @@ export default function UploadFile({ uri }: { uri: string }) {
       <Button
         mode="contained"
         onPress={async () => {
-          await sendFileToServer();
+          await uploadAndSaveRecording();
         }}
       >
         UploadFile

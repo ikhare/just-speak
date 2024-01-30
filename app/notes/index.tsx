@@ -17,7 +17,7 @@ export default function NotesList() {
       <FlatList
         data={notes}
         renderItem={({ item: note }) => (
-          <Link href={`/notes/${note.fileId}`}>
+          <Link href={`/notes/${note.recId}`}>
             <List.Item
               title={
                 note.label
