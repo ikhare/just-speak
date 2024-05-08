@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text } from "react-native";
 import { Button } from "react-native-paper";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useQuery } from "convex/react";
@@ -12,17 +12,6 @@ export default function SingleNote() {
   const recId = id as Id<"recordings">;
   const note = useQuery(api.notes.getNote, { recId });
   const noteAudio = useQuery(api.notes.getNoteAudio, { recId });
-
-  // const [sound, setSound] = React.useState<Audio.Sound>();
-
-  // async function playSound() {
-  //   console.log("Loading Sound");
-  //   const { sound } = await Audio.Sound.createAsync({ uri: note?.recording });
-  //   setSound(sound);
-
-  //   console.log("Playing Sound");
-  //   await sound.playAsync();
-  // }
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

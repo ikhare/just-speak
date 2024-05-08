@@ -5,27 +5,16 @@ import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
 import React from "react";
-import { Audio } from "expo-av";
 
 // NOTE THIS IS NOT USED
-export default function SingleJournalEntry() {
+// Placeholder component for a detailed view of a single reminder
+export default function SingleReminder() {
   const { id } = useLocalSearchParams();
   const entryId = id as Id<"journal">;
   const entry = useQuery(api.journal.getJournalEntry, { entryId });
   const theme = useTheme();
 
   console.log("entry", entry);
-
-  // const [sound, setSound] = React.useState<Audio.Sound>();
-
-  // async function playSound() {
-  //   console.log("Loading Sound");
-  //   const { sound } = await Audio.Sound.createAsync({ uri: note?.recording });
-  //   setSound(sound);
-
-  //   console.log("Playing Sound");
-  //   await sound.playAsync();
-  // }
 
   return (
     <View style={{ flex: 1, padding: 8 }}>

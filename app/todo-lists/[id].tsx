@@ -41,12 +41,6 @@ export default function SingleTodoList() {
             )}
 
             <TodoList list={list.list}></TodoList>
-            {/* {list.list.map((item) => (
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Checkbox status="unchecked" />
-                <Text variant="titleMedium">{item}</Text>
-              </View>
-            ))} */}
           </View>
         </>
       )}

@@ -1,5 +1,5 @@
 import { View, Text, FlatList } from "react-native";
-import { Link, Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { Link, Stack } from "expo-router";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { List } from "react-native-paper";
