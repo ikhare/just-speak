@@ -1,19 +1,13 @@
 import { v } from "convex/values";
-import { query } from "./_generated/server";
-import { checkAuth, idFromTokenIdentifier } from "./helpers";
+import { appQueryWithAuth } from "./helpers";
 
-export const getNotes = query({
+export const getNotes = appQueryWithAuth({
   args: {},
   handler: async (ctx, args) => {
-    // get user
-    const identity = await checkAuth(ctx);
-    const userId = idFromTokenIdentifier(identity.tokenIdentifier);
-    // console.log("userId", userId);
-
     // get all recordings
     const recordings = await ctx.db
       .query("recordings")
-      .filter((q) => q.eq(q.field("author"), userId))
+      .filter((q) => q.eq(q.field("userId"), ctx.userId))
       .order("desc")
       .collect();
 
@@ -38,11 +32,9 @@ export const getNotes = query({
   },
 });
 
-export const getNote = query({
+export const getNote = appQueryWithAuth({
   args: { recId: v.id("recordings") },
   handler: async (ctx, args) => {
-    // get user
-    await checkAuth(ctx);
     // get recording
     const recording = (await ctx.db.get(args.recId))!; // TODO: handle null
     // get transcript
@@ -55,6 +47,18 @@ export const getNote = query({
       recId: recording._id,
       creationTime: recording._creationTime,
       text: transcription?.text || "",
+    };
+  },
+});
+
+export const getNoteAudio = appQueryWithAuth({
+  args: { recId: v.id("recordings") },
+  handler: async (ctx, args) => {
+    // get recording
+    const recording = (await ctx.db.get(args.recId))!; // TODO: handle null
+    return {
+      recId: recording._id,
+      audio: await ctx.storage.getUrl(recording.storageId),
     };
   },
 });

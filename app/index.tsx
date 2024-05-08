@@ -48,7 +48,7 @@ function MainScreenWrapper({ children }) {
     <>
       <Stack.Screen
         options={{
-          title: "Record it!",
+          title: "Just speak",
           headerRight: () => (
             <Menu
               visible={visible}
@@ -181,7 +181,16 @@ function RecordingScreen() {
       {soundUri !== undefined && <UploadRecording uri={soundUri} />}
 
       <Link href="/notes/">
-        <Button mode="contained-tonal">See all notes</Button>
+        <Button mode="contained-tonal">See all raw transcripts</Button>
+      </Link>
+      <Link href="/journal/">
+        <Button mode="contained-tonal">See all journal entries</Button>
+      </Link>
+      <Link href="/reminders/">
+        <Button mode="contained-tonal">See all reminders</Button>
+      </Link>
+      <Link href="/todo-lists/">
+        <Button mode="contained-tonal">See all todo lists</Button>
       </Link>
     </>
   );

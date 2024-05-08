@@ -63,9 +63,12 @@ export const getRecording = internalQuery({
 export const storeTranscript = internalMutation({
   args: { transcription: v.string(), recId: v.id("recordings") },
   handler: async (ctx, args) => {
-    return ctx.db.insert("transcriptions", {
+    await ctx.db.insert("transcriptions", {
       recordingId: args.recId,
       text: args.transcription,
+    });
+    await ctx.scheduler.runAfter(0, internal.categorize.categorizeTranscript, {
+      recId: args.recId,
     });
   },
 });

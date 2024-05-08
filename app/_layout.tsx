@@ -32,11 +32,15 @@ const tokenCache = {
 
 const theme = {
   ...DefaultTheme,
-  // colors: {
-  //   ...DefaultTheme.colors,
-  //   primary: "tomato",
-  //   secondary: "yellow",
-  // },
+  colors: {
+    ...DefaultTheme.colors,
+    primary: "#FF9F1C",
+    primaryContainer: "#FFBF69",
+    secondary: "#2EC4B6",
+    secondaryContainer: "#CBF3F0",
+    background: "#FFFFFF",
+    surface: "#e9c46a",
+  },
 };
 
 const convex = new ConvexReactClient(CONVEX_URL, {

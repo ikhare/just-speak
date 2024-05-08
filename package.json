@@ -13,6 +13,7 @@
     "@clerk/clerk-expo": "^0.19.19",
     "@types/react": "~18.2.45",
     "convex": "^1.5.1",
+    "convex-helpers": "^0.1.36",
     "expo": "^50.0.4",
     "expo-av": "~13.10.4",
     "expo-constants": "~15.4.5",
