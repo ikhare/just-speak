@@ -1,28 +1,35 @@
-# App to record and transcribe audio then do some cool things
+# Mobile app to record and transcribe audio then auto categorize
 
-Cool things include:
+## Tech stack
 
-- Raw transcription
-- Summary
-- Extract key points
-- Extract tone and suggestions on how to make it more like your voice
-- Web page to download text for manual editing in an editor
+- Expo fort the frontend
+  - React native paper for material design components
+- Convex for the backend
 
 ## Getting started
 
+### Install all the stuff
+
+`npm i`
+
+### Setup you Convex server
+
+This is a terminal blocking command
+
+`npx convex dev`
+
+### Run the frontend app via Expo
+
+In a different terminal
+
 `npm run start`
 
-## Tech notes
+## Ideas on what's next
 
-- Built using expo on the frontend
-  - React native paper for material design components
-- Convex on the backend
-
-## Todos
-
-- [x] List of voice notes
-  - [x] Show list with basic info
-  - [ ] If summary is available then show
-  - [x] Detail page
-- [ ] Chain the upload and then transcription stuff
-- [ ] Generalize chain into a workflow library
+- [ ] Significantly improve UI
+  - [ ] Switch from React Native Paper to Tamagui?
+- [ ] Make multiple offline recordings to be uploaded when back online
+- [ ] Make this truly cross platform with React Native / Expo Web
+- [ ] Package a real Android app to use properly
+- [ ] Package a real iOS app to use properly
+- [ ] AI to make suggestions to journal entry for publishing as blog post
