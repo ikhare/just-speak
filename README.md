@@ -2,9 +2,11 @@
 
 ## Tech stack
 
-- Expo fort the frontend
-  - React native paper for material design components
-- Convex for the backend
+- [Expo](https://expo.dev/) for the frontend
+  - [Expo router](https://docs.expo.dev/router/introduction/)
+  - [React native paper](https://reactnativepaper.com/) for material design components
+- [Convex](https://www.convex.dev/) for the backend
+- [OpenAI](https://platform.openai.com/docs/overview) for transcription and categorization
 
 ## Getting started
 
@@ -23,6 +25,10 @@ This is a terminal blocking command
 In a different terminal
 
 `npm run start`
+
+## Questions?
+
+Chat with @Indy at [Convex discord community](https://convex.dev/community)
 
 ## Ideas on what's next
 
